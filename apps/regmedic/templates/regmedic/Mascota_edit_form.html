@@ -1,0 +1,122 @@
+{% extends "base/base.html" %}
+{% block title %} Editar {{ obj.nombre }} | Santa Barbara{% endblock %}
+{% block contenido %}
+<main role="main">
+        <style>label{text-align: center}</style>
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-md-9 mx-auto">
+                    <div>
+                        <br>
+                        <h2 class="text-verde text-center">Editar Mascota</h2>
+                        <br>
+                        {% if 'ok' in request.GET %}
+                            <p style="color:green;">Se han actualizado correctamente los Datos, <a href="{% url 'regmedic:Mascota_detail' mascota.pk %}">Haz click aqui para ver el resultado</a></p>
+                        {% endif %}
+
+                       <form action="" method="post">{% csrf_token %}
+                            <div class="formulario">
+                                <!-- {{form.as_p}} -->
+                                <div>
+                                    <label for="id_cliente">Propietario de la Mascota</label>
+                                    {{form.cliente}}
+                                    {{form.cliente.errors}}
+                                </div>
+                                
+                                <div>
+                                    <label for="id_nombre">Nombre de la Mascota</label>
+                                    <input class="form-control" value="{{obj.nombre}}" type="text" required placeholder="nombre de la mascota" name="nombre" id="id_nombre" autocomplete="off" readonly pattern="[A-Za-z]{2,50}">
+                                    {{form.nombre.errors}}
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="id_fnaci">Fecha de Nacimiento</label>
+                                    <input class="form-control" value="{{obj.fnaci|date:'SHORT_DATE_FORMAT'}}" required type="text" name="fnaci" id="id_fnaci" readonly>
+                                    {{form.fnaci.errors}}
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="id_especie">Especie</label>
+                                    <input type="text" class="form-control" required id="id_especie" name="especie" value="{{obj.especie}}" readonly>
+                                    {{form.especie.errors}}
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="id_razam">Raza</label>
+                                    <input type="text" class="form-control" required name="razam" id="id_razam" value="{{obj.razam}}" readonly>
+                                    {{form.razam.errors}}
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="id_sexom">Sexo</label>
+                                    <input type="text" class="form-control" required name="sexom" id="id_sexom" value="{{obj.sexom}}" readonly>
+                                    {{form.sexom.errors}}
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="id_peso">Peso (Kg)</label>
+                                <input class="form-control" type="number" required name="peso" id="id_peso" min="0" value="{{obj.peso}}">
+                                {{form.peso.errors}}
+                                </div>
+                                <div class="mt-3">
+                                    <label for="id_estado">Estado</label>
+                                    <input class="form-control" type="checkbox" name="estado" id="id_estado" checked>
+                                    {{form.estado.errors}}
+                                </div>
+
+                            </div>
+                            <br>
+                            <div  class="row text-center">
+                                <div class="col ">
+                                    <button  type="submit" class="btn verde mr-3 text-light"><span class="fas fa-save"></span> Guardar</button>
+                                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-dark"><span class="fa fa-undo"></span> Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const especie = document.getElementById('id_especie');
+
+        const canino = document.querySelector('.perros');
+        const fenino = document.querySelector('.gatos');
+
+        especie.addEventListener('click', e => {
+            const opcion = especie.options[especie.selectedIndex].value;
+
+            if (opcion == 'Canino') {
+                canino.classList.add('activo');
+            }else{
+                canino.classList.remove('activo');
+            }
+            if (opcion == 'Felino') {
+                fenino.classList.add('activo');
+            }else{
+                fenino.classList.remove('activo');
+            }
+        });
+    </script>
+{% endblock %}
+{% block js %}
+<script>
+    $(function () {
+        $("#id_cliente").select2({
+            placeholder:"Seleccione el Cliente",
+            theme: 'bootstrap4',
+            language: 'es',
+            allowClear: true
+        });
+        $("#id_fnaci").datetimepicker({
+            format: 'Y-m-d',
+            timepicker:false,
+            yearRange: '-50:+0',
+            maxDate: '+0m +0d'
+            
+        });
+    });
+</script>
+{% endblock js %}

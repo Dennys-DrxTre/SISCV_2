@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{% block title %}{% endblock %}</title>
+  {% load static %}
+  {% load notifications_tags %}
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="{% static 'base/css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'base/css/Global-style.css' %}" rel="stylesheet">
+  <link href="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+  <link href="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.css' %}" rel="stylesheet">
+  <link href="{% static 'base/vendor/jquery-datetimepiker/jquery.datetimepicker.css' %}" rel="stylesheet">
+  <link href="{% static 'base/vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+  <link href="{% static 'base/vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}" rel="stylesheet">
+  <!-- Toastr js -->
+  <link rel="stylesheet" href="{% static 'base/vendor/toastr/toastr.min.css' %}">
+  <link href="{% static 'base/css/bootstrap-table.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top" class="verde">
+  {% block sidebar%}
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="navbar-nav verde sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center">
+          <div class="sidebar-brand-icon">
+            <img src="{% static 'base/img/logoS.png' %}" class="logoS" alt="" srcset="">
+          </div>
+          <div class="sidebar-brand-text mx-3 text-light">SISVICV</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+          <a href="{% url 'inicio:inicio' %}" class="nav-link upper" href="#">
+            <i class="fas fa-home "></i>
+            <span class="text-gray-100">Inicio</span></a>
+        </li>
+
+        <!-- Divider -->
+        {% if perms.regmedic.view_cliente %}
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Gestión de Consultas
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-user"></i>
+            <span class="text-gray-100">Registro de Clientes</span>
+          </a>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header text-gray-900">Clientes y Mascotas</h6>
+              {% if perms.regmedic.view_cliente %}
+              <a class="collapse-item" href="{% url 'regmedic:Cliente_list' %}">Clientes</a>
+              {% endif %}
+              {% if perms.regmedic.view_mascota %}
+              <a class="collapse-item" href="{% url 'regmedic:Mascota_list' %}">Mascotas</a>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+        {% endif %}
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        {% if perms.regmedic.view_consulta %}
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTree" aria-expanded="true"
+            aria-controls="collapseTree">
+            <i class="fas fa-stethoscope"></i>
+            <span class="text-gray-100">Historias Medicas</span>
+          </a>
+          <div id="collapseTree" class="collapse" aria-labelledby="headingTree" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header text-gray-900">Sección Medica</h6>
+              {% if perms.regmedic.view_consulta %}
+              <a class="collapse-item" href="{% url 'regmedic:Consulta_list' %}">Consultas</a>
+              {% endif %}
+              {% if perms.regmedic.view_vacuna %}
+              <a class="collapse-item" href="{% url 'regmedic:Vacuna_list' %}">Vacunaciones</a>
+              {% endif %}
+              {% if perms.regmedic.view_despa %}
+              <a class="collapse-item" href="{% url 'regmedic:Despa_list' %}">Desparasitaciones</a>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+        {% endif %}
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+        <div class="sidebar-heading">
+          Salida
+        </div>
+        <!-- Reportes -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsesalida" aria-expanded="true"
+            aria-controls="collapsesalida">
+            <i class="fas fa-file-pdf"></i>
+            <span class="text-gray-100">Reportes</span>
+          </a>
+          <div id="collapsesalida" class="collapse" aria-labelledby="headingsalida" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header text-gray-900">CLIENTES y MASCOTAS</h6>
+              <a class="collapse-item" href="{% url 'reporte:clientall' %}" target="_blank">Clientes</a>
+              <a class="collapse-item" href="{% url 'reporte:mascotaall' %}" target="_blank">Mascotas</a>
+            </div>
+          </div>
+        </li>
+        <!-- Fin Reportes -->
+        {% if request.user.is_staff %}
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Ajustes
+        </div>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseajustes"
+            aria-expanded="true" aria-controls="collapseajustes">
+            <i class="fas fa-cog"></i>
+            <span class="text-gray-100">Mantenimiento</span>
+          </a>
+          <div id="collapseajustes" class="collapse" aria-labelledby="headingajustes" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header text-gray-900">Mantenimiento</h6>
+              <a class="collapse-item" href="{% url 'inicio:man_client' %}">Clientes</a>
+              <a class="collapse-item" href="{% url 'inicio:man_pets' %}">Mascotas</a>
+              <a class="collapse-item" href="{% url 'inicio:list_emp' %}">Empleados</a>
+            </div>
+          </div>
+        </li>
+        <!--Fin mantenimiento-->
+      {% endif %}
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+  {% endblock sidebar %}
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Topbar -->
+        {% block topbar %}
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <div class="input-group">
+                <a class="sidebar-brand d-flex align-items-left  justify-content-left">
+                  <div class="sidebar-brand-icon">
+                    <img src="{% static 'base/img/logoP.png' %}" class="logotype" alt="" srcset="">
+                  </div>
+                </a>
+
+              </div>
+
+            </div>
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+              <div class="nav-item mt-4 font-weight-bold text-gray-700 small " id="FechaHoy"></div>
+
+
+
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-bell fa-fw"></i>
+                  <!-- Counter - Alerts -->
+                  <span class="badge badge-danger badge-counter">{% live_notify_badge %}
+                  </span>
+                </a>
+                <!-- Dropdown - Alerts -->
+
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="alertsDropdown">
+
+                  {% if user.notifications.unread %}
+                  {% for notification in user.notifications.unread %}
+                  <a class="dropdown-item d-flex align-items-center" rel="read" id="{{ notification.id }}" href="#">
+                    <div class="mr-3">
+                      
+                      {% if notification.level == 'success' %}
+                        <div class="icon-circle bg-secondary">
+                          <i class="fas fa-comment-medical text-white"></i>
+                        </div>
+                      {% elif notification.level == 'info' %}
+                        <div class="icon-circle bg-dark">
+                          <i class="fas fa-syringe text-white"></i>
+                        </div>
+                      {% else %}
+                        <div class="icon-circle bg-warning">
+                          <i class="fas fa-bug text-white"></i>
+                        </div>
+                      {% endif %}
+                        
+
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">{{ notification.verb }}</div>
+                      <span class="font-weight-bold">{{ notification.description|truncatechars:20 }}</span>
+                    </div>
+                  </a>
+                  {% endfor %}
+                  {% else %}
+                  <a class="dropdown-item text-center small text-gray-500" href="#"><span
+                      class="badge badge-secondary">Vacio</span></a>
+                  {% endif %}
+                  <a class="dropdown-item text-center small text-gray-500" href="{% url 'inicio:noti' %}">Mostrar todos</a>
+                </div>
+              </li>
+
+
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline font-weight-bold text-gray-600 small">{{user.username}}</span>
+                  {% if request.user.is_staff %}
+                  <i class="rounded-circle fas fa-user-md text-gray-800 fa-lg fa-fw mr-2 " style="font-size: 2rem;"></i>
+                  {% else %}
+                  <img class="img-profile rounded-circle" src="{% static 'base/img/user.png' %}">
+                  {% endif %}
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item btn-success" href="{% url 'password_change' %}">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Cambiar Contraseña
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item btn-success" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Salir
+                  </a>
+                </div>
+              </li>
+
+            </ul>
+
+          </nav>
+          <!-- End of Topbar -->
+        {% endblock topbar %}
+
+        {% block contenido %}
+
+        {% endblock contenido %}
+
+
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+  <!-- Scroll to Top Button-->
+  {% block login %}{% endblock %}
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">¿Desea salir <span
+              class="icon text-verde">{{user.username}}</span> ?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Seleccione "Salir" para cerrar la Sesión.</div>
+        <div class="modal-footer">
+          <button class="btn btn-warning" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn verde text-light" href="{% url 'inicio:logout' %}">Salir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="popup">
+
+  </div>
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'base/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'base/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'base/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'base/js/sb-admin-2.min.js' %}"></script>
+  <!--JS DATATABLES-->
+  <script src="{% static 'base/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.js' %}"></script>
+  <script src="{% static 'base/vendor/jquery-datetimepiker/jquery.datetimepicker.full.js' %}" rel="stylesheet"></script>
+  <script src="{% static 'base/vendor/select2/js/select2.min.js' %}" rel="stylesheet"></script>
+  <script src="{% static 'base/js/bootstrap-table.min.js' %}"></script>
+  <script src="{% static 'base/js/demo/datatables-demo.js' %}"></script>
+  <script src="{% static 'base/js/app.js' %}"></script>
+
+  <!-- Charts.js -->
+  <script src="{% static 'base/vendor/chart.js/Chart.bundle.min.js' %}"></script>
+  <script src="{% static 'base/vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'base/vendor/chart.js/chart-area-demo.js' %}"></script>
+  <script src="{% static 'base/vendor/chart.js/chart-pie-demo.js' %}"></script>
+  <script src="{% static 'base/vendor/chart.js/chart-bar-demo.js' %}"></script>
+  <!-- Toastr js -->
+  <script src="{% static 'base/vendor/toastr/toastr.min.js' %}"></script>
+  <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+  {% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+
+  <script>
+    $(document).ready(function () {
+      jQuery.datetimepicker.setLocale('es');
+    });
+  </script>
+
+  {% block controlmodal %}
+  <script>
+    function abrir_modal(url) {
+
+      $("#popup").load(url, function () {
+        $(this).modal({
+          backdrop: 'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      });
+      return false;
+    }
+
+    function cerrar_modal() {
+      $('#popup').modal('hide');
+      return false;
+    }
+
+    function mensaje(msg, color = 'green') {
+      $.alert({
+        title: '',
+        theme: 'material',
+        type: color,
+        content: msg
+      });
+    }
+    {% if messages %}
+    {% for mensaje in messages %}
+    mensaje('{{ mensaje }}');
+    {% endfor %}
+    {% endif %}
+
+
+  </script>
+
+  <script>
+    const Fecha = new Date();
+    const DMA = Fecha.toLocaleDateString();
+    const HMS = Fecha.toLocaleTimeString();
+    const FechaHora = document.getElementById('FechaHoy').innerHTML = "Fecha: " + DMA;
+  </script>
+  {% endblock %}
+  {% block js %}
+
+  {% endblock %}
+
+</body>
+
+</html>

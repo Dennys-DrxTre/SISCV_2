@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceder |Santa Barbara</title>
+
+    <link href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'base/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'base/css/Global-style.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% if not request.user.is_authenticated %}
+    <div class="bg-gradient-primary" style="height: 100vh;">
+        <div class="container">
+      
+          <!-- Outer Row -->
+            <div class="row justify-content-center">
+        
+                <div class="col-xl-10 col-lg-12 col-md-9">
+        
+                    <div class="card o-hidden border-5 shadow-lg my-5">
+                        <div class="card-body p-5" style="height: 85vh;">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="login-logo col-lg-6 d-none d-lg-block bg-login-image"></div>
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">¡Bienvenido!</h1>
+                                        </div>
+                                        <form class="user" method="POST">{% csrf_token %}
+                                            {% if form.non_field_errors %}
+                                                <p class="small alert alert-dismissible alert-danger text-center"> ¡Usuario o Contraseña <strong>Incorrecto</strong>!, intenta nuevamente.</p>
+                                            {% endif %}
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" name="username" id="id_username" aria-describedby="userlHelp" placeholder="Usuario..." autocomplete="off">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" name="password" id="id_password" placeholder="Contraseña..." autocomplete="off">
+                                        </div>
+                                        <div class="form-group mt-5">
+                                            <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                                        </div>
+                                        <hr>
+                                        </form>
+                                        <div class="text-center">
+                                            <a class="small" href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      {% else %}
+      <div class="mt-5">
+          <div class="col-md-7 mx-auto">
+              <h3 class="text-center">Ya has ingresado como:  <span class="text-capitalize"><a class="card-link text-primary h3">{{request.user.username}}</a></span></h3>
+              <p class="text-center text-danger mt-4">¿Deseas salir del sistema?</p>
+      
+              <div class="text-center mt-5">
+              <a class="btn btn-danger btn-small" href="{% url 'logout' %}">Salir</a>
+              <a class="btn btn-primary btn-small ml-5" href="{% url 'inicio:inicio' %}">Cancelar</a>
+              </div>
+          </div>
+      </div>
+      
+      {% endif %}
+</body>
+</html>

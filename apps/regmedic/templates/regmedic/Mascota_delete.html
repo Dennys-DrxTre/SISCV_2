@@ -1,0 +1,24 @@
+<div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+        <form action="{% url 'regmedic:Mascota_delete' obj.pk %}" method="POST" role="form">
+            {% csrf_token %}
+            <div class="col-14">
+                <div class="card border-left-danger shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-dark text-uppercase mb-3">¿Estas seguro de eliminar a <strong>{{object}}</strong> del sistema?</div>
+                                <button type="submit" class="btn verde text-light mr-5 ml-5"><span class="fas fa-trash"></span> Si, Eliminar</button>
+                                
+                                <a onclick="cerrar_modal()" href="#" class="btn btn-dark text-light"><span class="fa fa-undo"></span> Cancelar</a>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-question-circle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>  
+    </div>
+</div>

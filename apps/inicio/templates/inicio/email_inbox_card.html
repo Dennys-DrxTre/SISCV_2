@@ -1,0 +1,112 @@
+
+{% extends "base/base.html" %}
+{% block title %}Tus notificationes | Santa Barbara{% endblock %}
+{% block contenido %}
+{% load static %}
+{% load notifications_tags %}
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body verde text-white mailbox-widget pb-0">
+                    <h2 class="text-white pb-3">Tus notificationes</h2>
+                    <ul class="nav nav-tabs custom-tab border-bottom-0 mt-4" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="inbox-tab" rel="all_btn" data-toggle="tab" aria-controls="inbox" href="#inbox" role="tab" aria-selected="true">
+                                <span class="d-block d-md-none"><i class="ti-email"></i></span>
+                                <span class="d-none d-md-block text-light"> TODOS</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="inbox" aria-labelledby="inbox-tab" role="tabpanel">
+                        <div>
+                            <div class="row p-4 no-gutters align-items-center">
+                                <div class="col-sm-12 col-md-6">
+                                    <span class="font-normal mb-0 badge badge-dark"><i class="ti-email mr-2"></i>notificationes no leidas: {% live_notify_badge %}</span>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <ul class="list-inline dl mb-0 float-left float-md-right">
+                                        <li class="list-inline-item text-info mr-3">
+                                            <a href="#" rel="read_all_btn">
+                                                <button class="btn btn-circle btn-dark text-white">
+                                                    <i class="fas fa-envelope-open"></i>
+                                                </button>
+                                                <span class="ml-2 font-normal text-dark">Marcar todos como leidos</span>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item text-danger">
+                                            <a href="#" rel="all_delete">
+                                                <button class="btn btn-circle btn-secondary text-white">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                <span class="ml-2 font-normal text-dark">Borrar todo</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Mail list-->
+                            <div class="table-responsive">
+                                <table id="data" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 5%;">Estado</th>
+                                            <th scope="col" style="width: 10%;">Modulo</th>
+                                            <th scope="col" style="width: 15%;">Mensaje</th>
+                                            <th scope="col" style="width: 30%;">Descripción</th>
+                                            <th scope="col" style="width: 10%;">Fecha</th>
+                                            <th scope="col" style="width: 10%;">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="sent" aria-labelledby="sent-tab" role="tabpanel">
+                        <div class="row p-3 text-dark">
+                            <div class="col-md-6">
+                                <h3 class="font-light">Lets check profile</h3>
+                                <h4 class="font-light">you can use it with the small code</h4>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="spam" aria-labelledby="spam-tab" role="tabpanel">
+                        <div class="row p-3 text-dark">
+                            <div class="col-md-6">
+                                <h3 class="font-light">Come on you have a lot message</h3>
+                                <h4 class="font-light">you can use it with the small code</h4>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="delete" aria-labelledby="delete-tab" role="tabpanel">
+                        <div class="row p-3 text-dark">
+                            <div class="col-md-6">
+                                <h3 class="font-light">Just do Settings</h3>
+                                <h4 class="font-light">you can use it with the small code</h4>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'base/js/noti_menu.js' %}"></script>
+{% endblock %}

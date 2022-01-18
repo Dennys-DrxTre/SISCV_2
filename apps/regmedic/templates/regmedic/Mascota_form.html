@@ -1,0 +1,129 @@
+{% extends "base/base.html" %}
+{% block title %} Registrar Mascota | Santa Barbara{% endblock %}
+{% block contenido %}
+<main role="main">
+    <style>label{display: block;}</style>
+    <div class="container">
+        <div class="row mt-3 mb-3">
+            <div class="col-md-9 mx-auto">
+                <br>
+                <h2 class="text-verde text-center mb-4">Nueva mascota</h2>
+                <form action="" method="POST">{% csrf_token %}
+                    <div class="form-producto">
+                        <!--{{form.as_p}}-->
+                        <div>
+                            <label for="id_cliente">Propietario de la Mascota</label>
+                            {{form.cliente}}
+                            {{form.cliente.errors}}
+                        </div>
+                        
+                        <div>
+                            <label for="id_nombre">Nombre de la Mascota</label>
+                            <input class="form-control" type="text" placeholder="Nombre de la Mascota" name="nombre" id="id_nombre" autocomplete="off" pattern="[A-Za-z]{2,50}" required>
+                            {{form.nombre.errors}}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <label for="id_fnaci">Fecha de Nacimiento</label>
+                            <input class="form-control" readonly type="date" name="fnaci" id="id_fnaci" required>
+                            {{form.fnaci.errors}}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <label for="id_especie">Especie</label>
+                            <select class="custom-select" name="especie" id="id_especie" required>
+                                <option value="">--Especie--</option>
+                                <option value="Canino">Canino</option>
+                                <option value="Felino">Felino</option>
+                                <option value="Ovino">Ovino</option>
+                                <option value="Bovino">Bovino</option>
+                                <option value="Equino">Equino</option>
+                                <option value="Caprino">Caprino</option>
+                                <option value="Ave">Ave</option>
+                                <option value="Fauna">Fauna</option>
+                            </select>
+                            {{form.especie.errors}}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <label for="id_razam">Raza</label>
+                            <input class="form-control" type="text" required placeholder="Raza de la mascota" name="razam" id="id_razam" autocomplete="off">
+                            {{form.razam.errors}}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <label for="id_sexom">Sexo</label>
+                            <select class="custom-select" name="sexom" id="id_sexom" required>
+                                <option value="">--Sexo--</option>
+                                <option value="Macho">Macho</option>
+                                <option value="Hembra">Hembra</option>
+                            </select>
+                            {{form.sexom.errors}}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <label for="id_peso">Peso (Kg)</label>
+                        <input class="form-control" type="number" name="peso" id="id_peso" min="0" required>
+                        {{form.peso.errors}}
+                        </div>
+                        <div class="mt-3">
+                        <label for="id_estado" hidden>Estado</label>
+                        <input class="form-control" type="checkbox" name="estado" id="id_estado" checked hidden>
+                        {{form.estado.errors}}
+                        </div>
+                    
+                    </div>
+                    <p class="mt-2">Nota: Solo se puede registrar una mascota siempre y cuando esté su propietario registrado, si no lo está, has click <span><a href="{% url 'regmedic:Cliente_form' %}">aquí</a> para registrarlo</span></p>
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-verde text-light mr-3"><span class="fas fa-save"></span> Registrar</button>
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-dark text-light"><span class="fa fa-undo"></span> Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const especie = document.getElementById('id_especie');
+        const canino = document.querySelector('.perros');
+        const fenino = document.querySelector('.gatos');
+
+        especie.addEventListener('click', e => {
+            const opcion = especie.options[especie.selectedIndex].value;
+
+            if (opcion == 'Canino') {
+                canino.classList.add('activo');
+            }else{
+                canino.classList.remove('activo');
+            }
+            if (opcion == 'Felino') {
+                fenino.classList.add('activo');
+            }else{
+                fenino.classList.remove('activo');
+            }
+        });
+
+
+    </script>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(function () {
+        $("#id_cliente").select2({
+            placeholder:"Seleccione el Cliente",
+            theme: 'bootstrap4',
+            language: 'es',
+            allowClear: true
+        });
+        $("#id_fnaci").datetimepicker({
+            format: 'Y-m-d',
+            timepicker:false,
+            yearRange: '-50:+0',
+            maxDate: '+0m +0d'
+            
+        });
+    });
+
+</script>
+
+{% endblock js %}

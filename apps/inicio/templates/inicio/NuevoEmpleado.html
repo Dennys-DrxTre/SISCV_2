@@ -1,0 +1,91 @@
+{% extends "base/base.html" %}
+{% block title %}Mantenimiento a Empleados |Santa Barbara{% endblock %}
+
+{% block contenido %}
+    <!-- Dropdown Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-verde">Listado de Empleados para Mantenimiento</h6>
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-plus fa-sm fa-fw" style="color: rgb(69, 200, 99);"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Acciones:</div>
+                <a class="dropdown-item" href="{% url 'signup' %}"><i class="fas fa-user" ></i>  Nuevo</a>
+            </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            {% if 'register' in request.GET %}
+                <p class="text-center" style="color:green;">Usuario creado correctamente, ya puedes acceder </p>
+            {% endif %}
+            {% if not object_list %}
+                <div class="alert alert-info">No hay Empleados Registrados</div> 
+            {% else %}
+            <table class="table table-striped table-hover" >
+                <thead>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>Rango</th>
+                    <th class="all">Acciones</th>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.first_name }}</td>
+                        <td>{{ item.last_name }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{% if not item.is_staff %}Asistente {% else %} Administrador {% endif %}</td>
+                        
+                        <td>
+                            {% if request.user.is_staff %}
+                            <a onclick="return abrir_modal('{% url 'inicio:del_emp' item.pk %}')" href="#" class="btn btn-dark text-light btn-circle"><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>  
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    // Call the dataTables jQuery plugin
+    $(document).ready(function() {
+    $('.table').DataTable({
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "<span class='fa fa-angle-double-left'></span>",
+            "sLast": "<span class='fa fa-angle-double-right'></span>",
+            "sNext": "<span class='fa fa-angle-right'></span>",
+            "sPrevious": "<span class='fa fa-angle-left'></span>"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+      }
+    });
+  });
+</script>
+{% endblock js %}

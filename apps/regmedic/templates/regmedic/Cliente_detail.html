@@ -1,0 +1,132 @@
+{% extends 'base/base.html' %}
+{% block title %}{{obj.nombre}} {% endblock %}
+{% block contenido %}
+<main role="main">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-10 mx-auto">
+        <h1 class="text-center mb-4 text-verde">Detalles del Cliente</h1>{% if obj.estado == False %}<span class="text-left h4 alert alert-danger">Cliente Inactivo</span>{% endif %}
+        <h2 class="section-heading mt-4 mb-4 text-capitalize">
+
+          <span class="h3 fa fa-user">  </span> <span class="h3 text-verde">{{obj.nombre}} {{obj.apellido}}</span>
+
+            <a href="{% url 'regmedic:Cliente_edit' obj.pk  %}"><span class="ml-3 h3 text-warning fa fa-edit"></span></a> 
+            <a onclick="return abrir_modal('{% url 'regmedic:Cliente_inac' obj.pk %}')" href="#" class="{% if obj.estado == True %}  text-negro{% else %}  {% endif %}"><i class="fas fa-power-off ml-2" title="{% if obj.estado == True %} Inactivar Cliente {% else %} Activar Cliente {% endif%}"></i></a>
+            <a href="{% url 'reporte:clienteone' obj.pk  %}" target="_blank"><span class="ml-2 h3 text-negro fas fa-file-pdf"></span></a> 
+
+        </h2>
+        
+        <p class="h5 mb-3">
+          <span class=" fa fa-id-card icon"> <span class="text-verde icon">Cédula</span>:</span> <span class="h5 text-gray-800">{{obj.tipo}}{{obj.cedula}}</span> 
+        </p>
+        <p class="h5 mb-3">
+          <span class=" fa fa-mobile icon"> <span class="text-verde icon">Celular</span>:</span> <span class="h5 text-gray-800">{{obj.co_movil}}{{obj.movil}}</span>
+        </p>
+        <p class="h5 mb-3"> 
+          <span class=" fa fa-phone icon"> <span class="text-verde icon">Teléfono</span>:</span> <span class="h5 text-gray-800">{{obj.tlf}}</span>
+        </p>
+        <p class="h5 mb-3">
+          <span class=" fa fa-mail-bulk icon"> <span class="text-verde icon">Correo Electrónico</span>:</span> <span class="h5 text-gray-800">{{obj.correo}}</span>
+        </p>
+        <p class="h5 mb-3">
+          <span class=" fa fa-paste icon"> <span class="text-verde icon">Ocupacion Laboral</span>:</span> <span class="h5 text-gray-800">{{obj.ocupacion}}</span>
+        </p>
+        <p class="h5 mb-3">
+          <span class=" fa fa-map-marker-alt icon"> <span class="text-verde icon">Dirección</span>:</span> <span class="h5 text-gray-800">{{obj.direccion}}</span>
+        </p>
+        <p class="h5 mb-3">
+          <span class=" fa fa-calendar icon"> <span class="text-verde icon">Ultimo Registro</span>:</span> <span class="h5 text-gray-800">{{obj.updated|date:"SHORT_DATE_FORMAT"}}</span>
+        </p>
+       <br>
+       
+        <div>
+          <p>
+            <h2 class="text-gray-800">{% if objm|length > 1 %}Mascotas{% else %}Mascota{% endif %}
+                  <a class="ml-5" href="{% url 'regmedic:Mascota_form' %}"><span class="icon fa fa-plus text-verde"></span></a></h2>
+            </h2>
+            <br>
+            <div class="card shadow mb-4">
+              <div class="card-body">
+                {% if not objm %}
+                    <div class="alert alert-info">No hay Mascotas Registradas</div> 
+                {% else %}
+                <table class="table table-striped table-hover" >
+                    <thead>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Sexo</th>
+                        <th>Especie</th>
+                        <th>Raza</th>
+                        <th>estado</th>
+                        <th class="all">Acciones</th>
+                    </thead>
+                    <tbody>
+                        {% for item in objm %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td><a class="nav-link" href="{% url 'regmedic:Mascota_detail' item.pk %}"><h6 class="font-weight-bold text-verde">{{ item.nombre }}</h6></a></td>
+                            <td>{{ item.sexom }}</td>
+                            <td>{{ item.especie }}</td>
+                            <td>{{ item.razam }}</td>
+                            <td>{{ item.estado|yesno:"Activo,Inactivo" }}</td>
+                            <td>
+                                <a href="{% url 'regmedic:Mascota_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="fas fa-edit"></i></a>
+                                {% if item.estado == True %}
+                                <a onclick="return abrir_modal('{% url 'regmedic:Mascota_inac' item.pk %}')" href="#" class="btn btn-dark text-light btn-circle"><i class="fas fa-power-off"></i></a>
+                                {% else %}
+                                <a onclick="return abrir_modal('{% url 'regmedic:Mascota_inac' item.pk %}')" href="#" class="btn btn-dark text-light
+                            
+                                btn-circle"><i class="fas fa-power-off btn-verde"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>  
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
+{% block js %}
+<script>
+    // Call the dataTables jQuery plugin
+    $(document).ready(function() {
+    $('.table').DataTable({
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "<span class='fa fa-angle-double-left'></span>",
+            "sLast": "<span class='fa fa-angle-double-right'></span>",
+            "sNext": "<span class='fa fa-angle-right'></span>",
+            "sPrevious": "<span class='fa fa-angle-left'></span>"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+      }
+    });
+  });
+</script>
+{% endblock js %}

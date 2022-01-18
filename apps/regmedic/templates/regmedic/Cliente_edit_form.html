@@ -1,0 +1,84 @@
+{% extends "base/base.html" %}
+{% block title %}Editar Datos| Santa Barbara{% endblock %}
+{% block contenido %}
+<main role="main">
+    <div class="container">
+        <div class="row mt-3 mb-3">
+            <div class="col-md-9 mx-auto">
+                <form action="" method="post" role="form">{% csrf_token %}
+                    <div class="cliente_form">
+                        <div class="iden">
+                            <label for="id_tipo" class="titulo">Identificación</label>
+                            <div class="mb-3 tipo">
+                                <select name="tipo" id="id_tipo" class="custom-select">
+                                    <option value="{{obj.tipo}}">{{obj.tipo}}</option>
+                                </select>
+                                {{form.tipo.errors}}
+                            </div>
+                            <div class="mb-3 ci">
+                                <input type="text" maxlength="8" placeholder="Número de Identificación" id="id_cedula" name="cedula" class="form-control" value="{{obj.cedula}}" autocomplete="off" readonly required>
+                                {{form.cedula.errors}}
+                            </div>
+                        </div>
+                        <div class="nombres">
+                            <div>
+                                <label for="id_nombre">Nombres</label>
+                                <input type="text" placeholder="Nombres" id="id_nombre" name="nombre" value="{{obj.nombre}}" class="form-control" autocomplete="off" readonly pattern="[A-Za-z- ]{2,50}" required>
+                                {{form.nombre.errors}}
+                            </div>
+                            <div>
+                                <label for="id_apellido">Apellidos</label>
+                                <input type="text" placeholder="Apellidos" id="id_apellido" name="apellido" value="{{obj.apellido}}" class="form-control" autocomplete="off" readonly pattern="[A-Za-z- ]{2,50}" required>
+                                {{form.nombre.errors}}
+                            </div>
+                        </div>
+                        <div class="celular">
+                            <label for="id_celular" class="titulo_cel">Celular</label>
+                            <div class="form-group">
+                                {{form.co_movil}}
+                            </div>
+                            <div class="">
+                                <input type="text" maxlength="7" placeholder="Número" id="id_celular" name="movil" class="form-control" value="{{obj.movil}}" autocomplete="off" required>
+                                {{form.movil.errors}}
+                            </div>
+                        </div>
+                        <div class="telefono">
+                            <label for="id_tlf" class="titulo_tlf">Telefono</label>
+                            <div>
+                                <input type="text" maxlength="11" placeholder="Número telefonico" id="id_tlf" name="tlf" value="{{obj.tlf}}" class="form-control" autocomplete="off">
+                                {{form.tlf.errors}}
+                            </div>
+                        </div>
+                        <div>
+                            <label for="id_correo">Correo</label>
+                            <input type="email" name="correo" id="id_correo" value="{{obj.correo}}" placeholder="Correo Electrónico" class="form-control" autocomplete="off" required>
+                            {{form.correo.errors}}
+                        </div>
+                        <div>
+                            <label for="id_ocupacion">Ocupacion</label>
+                            {{form.ocupacion}}
+                            {{form.ocupacion.errors}}
+                        </div>
+                        <div class="mt-2 direcc" style="grid-column: 1/3;">
+                            <label for="id_direccion">Direccion</label>
+                            {{form.direccion}}
+                            {{form.direccion.errors}}
+                        </div>
+                        <div class="form-group mt-3">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="customCheck1" checked name="estado">
+                              <label class="custom-control-label" for="customCheck1">{% if obj.estado == True %}¿Desactivar Cliente? {% else %}¿Activar Cliente? {% endif %} </label>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="text-center mt-5 mb-2">
+                        <input type="submit" class="btn btn-verde text-light mr-4" value="Actualizar">
+                        <a class="btn  btn-dark text-light" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>                                   
+</main>
+{% endblock %}
+

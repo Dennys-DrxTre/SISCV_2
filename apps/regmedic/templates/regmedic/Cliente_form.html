@@ -1,0 +1,114 @@
+{% extends "base/base.html" %}
+{% block title %}Registrar Cliente | Santa Barbara{% endblock %}
+{% block contenido %}
+<main role="main">
+    <div class="container">
+        <div class="row mt-3 mb-3">
+            <div class="col-md-9 mx-auto">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="cliente_form">
+                        <!-- {{form.as_p}} -->
+                        <div class="iden">
+                            <label for="id_tipo" class="titulo">Identificación</label>
+                            <div class="mb-3 tipo">
+                                
+                                {{form.tipo}}
+                                {{form.tipo.errors}}
+                            </div>
+                            <div class="mb-3 ci">
+                                <input type="text" maxlength="8" placeholder="Número de Identificación" id="id_cedula" name="cedula" class="form-control" autocomplete="off" required onkeypress="return justNumbers(event);">
+                                {{form.cedula.errors}}
+                            </div>
+                        </div>
+
+                        <div class="nombres">
+                            <div>
+                                <label for="id_nombre">Nombres</label>
+                                <input type="text" placeholder="Nombres" id="id_nombre" name="nombre" class="form-control" autocomplete="off" pattern="[A-Za-z- ]{2,50}" onkeypress="return Solo_Texto(event);"  required>
+                                {{form.nombre.errors}}
+                            </div>
+                            <div>
+                                <label for="id_apellido">Apellidos</label>
+                                <input type="text" placeholder="Apellidos" id="id_apellido" name="apellido" class="form-control" autocomplete="off" onkeypress="return Solo_Texto(event);" required>
+                                {{form.nombre.errors}}
+                            </div>
+                        </div>
+
+                        <div class="celular">
+                            <label for="id_celular" class="titulo_cel">Celular</label>
+                            <div class="form-group">
+                                {{form.co_movil}}
+                            </div>
+                            <div class="">
+                                <input type="text" maxlength="7" placeholder="Número" id="id_celular" name="movil" class="form-control" autocomplete="off" onkeypress="return justNumbers(event);" required>
+                                {{form.movil.errors}}
+                            </div>
+                        </div>
+
+                        <div class="telefono">
+                            <label for="id_tlf" class="titulo_tlf">Telefono</label>
+                            <div>
+                                <input type="text" maxlength="11" placeholder="Número telefonico" id="id_tlf" name="tlf" class="form-control" autocomplete="off" onkeypress="return justNumbers(event);">
+                                {{form.tlf.errors}}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="id_correo">Correo</label>
+                            <input type="email" name="correo" id="id_correo" placeholder="Correo Electrónico" class="form-control" autocomplete="off">
+                            {{form.correo.errors}}
+                        </div>
+                        
+                        <div>
+                            <label for="id_ocupacion">Ocupacion</label>
+                            {{form.ocupacion}}
+                            {{form.ocupacion.errors}}
+                        </div>
+
+                        <div class="mt-3 direcc">
+                            <label for="id_direccion">Direccion</label>
+                            <textarea name="direccion" id="id_direccion" cols="30" placeholder="Dirección Habitacional" rows="10" class="form-control textarea" required></textarea>
+                            {{form.direccion.errors}}
+                        </div>
+                        <div class="form-group mt-5 ml-5" hidden>
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="customCheck1" checked name="estado">
+                              <label class="custom-control-label" for="customCheck1">Activar</label>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="text-center mt-5 mb-2">
+                        <input type="submit" class="btn btn-verde text-light mr-4" value="Registrar">
+                        <a class="btn btn-dark text-light" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>                                   
+</main>
+
+{% block js %}
+<script type="text/javascript">
+	function Solo_Texto(e) {
+    var code;
+    if (!e) var e = window.event;
+    if (e.keyCode) code = e.keyCode;
+    else if (e.which) code = e.which;
+    var character = String.fromCharCode(code);
+    var AllowRegex  = /^[\ba-zA-Z\s-]$/;
+    if (AllowRegex.test(character)) return true;     
+    return false; 
+}
+//Solo numeros
+function justNumbers(e)
+    {
+    var keynum = window.event ? window.event.keyCode : e.which;
+    if ((keynum == 8) || (keynum == 46))
+    return true;
+        
+    return /\d/.test(String.fromCharCode(keynum));
+    }
+</script>
+{% endblock %}
+
+{% endblock %}

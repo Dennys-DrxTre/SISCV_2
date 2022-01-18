@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% block title %}Email{% endblock %}
+{% load static %}
+{% block contenido %}
+    <style>label{display: none;}</style>
+    <div class="col-md-7 mx-auto mb-5 mt-5">
+        <form action="" class="registro" method="POST">{% csrf_token %}
+            <h1 class="mb-5 mt-5 text-center text-secondary">Actualizar Email</h1>
+            {{form.as_p}}
+            <input class="btn btn-primary btn-block" type="submit" value="Actualizar" >
+        </form>
+    </div>
+    
+{% endblock contenido %}
